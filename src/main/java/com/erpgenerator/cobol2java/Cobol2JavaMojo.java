@@ -27,13 +27,13 @@ public class Cobol2JavaMojo extends AbstractMojo
 
     /**
      * Specifies the package name for the data classes. Default value is <code>coboldataclasses</code>.
-     * @parameter expression="${dataPackageName}"
+     * @parameter expression="${dataPackageName}" default-value="coboldataclasses"
      */
     private String dataPackageName;
 
     /**
      * Specifies the package name for the program classes. Default value is <code>cobolprogramclasses</code>.
-     * @parameter expression="${programPackageName}"
+     * @parameter expression="${programPackageName}" default-value="cobolprogramclasses"
      */
     private String programPackageName;
 
@@ -85,6 +85,7 @@ public class Cobol2JavaMojo extends AbstractMojo
                 throw new MojoExecutionException( "Failed to compile", ex );
             }
         }
+        this.project.addCompileSourceRoot( outputDirectory.getAbsolutePath() );
     }
 
     private CobolSourceFileInfo[] scanForSourceFiles()
@@ -98,6 +99,7 @@ public class Cobol2JavaMojo extends AbstractMojo
         try {
             CobolSourceDirectoryScanner scanner = new CobolSourceDirectoryScanner();
             scanner.setSourceDirectory( sourceDirectory );
+            scanner.setIncludes( new String[] { "**/*.cbl", "**/*.CBL" } );
             scanner.scan();
             sourceFileInfos = scanner.getIncludedSourceFiles();
         } catch( Exception ex )

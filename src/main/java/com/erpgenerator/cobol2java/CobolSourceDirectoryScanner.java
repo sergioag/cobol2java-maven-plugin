@@ -34,6 +34,11 @@ public class CobolSourceDirectoryScanner
         this.scanner.setBasedir( directory );
     }
 
+    public void setIncludes( String includes[] )
+    {
+        this.scanner.setIncludes( includes );
+    }
+
     public void scan() throws IOException
     {
         this.includedSourceFiles.clear();
